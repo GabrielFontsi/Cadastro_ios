@@ -26,11 +26,10 @@ class HomeViewController: UIViewController {
         //self.loadProducts()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-        }
+   
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         loadProducts()
         homeScreen?.tableView.reloadData()
     }
