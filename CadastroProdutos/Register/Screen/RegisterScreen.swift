@@ -29,6 +29,12 @@ class RegisterScreen: UIView {
         return label
     }()
     
+    public func configTextFieldDelegate(delegate: UITextFieldDelegate, textViewDelegate: UITextViewDelegate){
+        self.productNameTextField.delegate = delegate
+        self.productPriceTextField.delegate = delegate
+        self.productDescriptionTextField.delegate = textViewDelegate
+    }
+    
     lazy var productNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +65,6 @@ class RegisterScreen: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.autocorrectionType = .no
         textField.backgroundColor = .white
-        //textField.placeholder = "Descrição do produto"
         textField.textColor = .darkGray
         textField.layer.cornerRadius = 15
         textField.layer.shadowColor = UIColor.black.cgColor
@@ -74,7 +79,7 @@ class RegisterScreen: UIView {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "   Digite o valor do produto"
-        textField.keyboardType = .decimalPad
+        textField.keyboardType = .numbersAndPunctuation
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 15
         textField.layer.shadowColor = UIColor.black.cgColor
@@ -84,6 +89,8 @@ class RegisterScreen: UIView {
         textField.layer.masksToBounds = false
         return textField
     }()
+    
+  
     
     lazy var availableForSaleLabel: UILabel = {
         let label = UILabel()
@@ -191,3 +198,5 @@ class RegisterScreen: UIView {
         self.delegate?.actionRegisterProductButton()
     }
 }
+
+

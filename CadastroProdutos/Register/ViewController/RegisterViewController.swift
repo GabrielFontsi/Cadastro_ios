@@ -20,6 +20,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.registerScreen?.delegate(delegate: self)
+        self.registerScreen?.configTextFieldDelegate(delegate: self, textViewDelegate: self)
     }
 }
 
@@ -36,20 +37,25 @@ extension RegisterViewController: RegisterScreenProtocol {
            
            let product = Product(product: name, description: description, price: price, isAvailable: isAvailable)
            ProductManager.shared.addProduct(product)
-           navigationController?.pushViewController(HomeViewController(), animated: true)
+           //navigationController?.pushViewController(HomeViewController(), animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func switchValueChanged(isOn: Bool) {
-        if isOn {
-                print("ON")
-            } else {
-                print("OFF")
-            }
         }
     }
 
-extension RegisterViewController: UITextFieldDelegate {
+extension RegisterViewController: UITextFieldDelegate, UITextViewDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+            if text == "\n" {
+                textView.resignFirstResponder()
+                return false
+            }
+            return true
+        }
+    
 }

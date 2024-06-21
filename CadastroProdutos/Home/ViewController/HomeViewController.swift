@@ -23,12 +23,11 @@ class HomeViewController: UIViewController {
         self.hidesBottomBarWhenPushed = true
         self.homeScreen?.configTableViewDelegate(delegate: self, dataSource: self)
         self.setupNavigationBar()
-        self.loadProducts()
+        //self.loadProducts()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.hidesBottomBarWhenPushed = true
-        homeScreen?.tableView.reloadData()
+    override func viewDidAppear(_ animated: Bool) {
+        loadProducts()
     }
     
     private func loadProducts() {
@@ -38,8 +37,9 @@ class HomeViewController: UIViewController {
     
     private func setupNavigationBar(){
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(registerProduct))
+        //let addButton = UIBarButtonItem(title: "Adicionar produto", style:.done, target: self, action: #selector(registerProduct))
         navigationItem.rightBarButtonItem = addButton
-        navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationController?.navigationBar.tintColor = .white
     }
     
     @objc func registerProduct() {
@@ -49,9 +49,9 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return products.count
-    }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return products.count
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ProductTableViewCell.identifier, for: indexPath) as? ProductTableViewCell else {
@@ -74,10 +74,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                detailVC.product = product
                navigationController?.pushViewController(detailVC, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            if products.isEmpty {
+                let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+                messageLabel.text = "Nenhum produto cadastrado. Clique no botão + para adicionar um produto."
+                messageLabel.textColor = .white
+                messageLabel.numberOfLines = 0
+                messageLabel.textAlignment = .center
+                messageLabel.font = UIFont(name: "TrebuchetMS", size: 16)
+                messageLabel.sizeToFit()
+                tableView.backgroundView = messageLabel
+                tableView.separatorStyle = .none
+            } else {
+                tableView.backgroundView = nil
+                tableView.separatorStyle = .singleLine
+            }
+            return products.count
+        }
+
 }
 
-extension HomeViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-    }
-}
+
