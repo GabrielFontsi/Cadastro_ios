@@ -37,7 +37,6 @@ extension RegisterViewController: RegisterScreenProtocol {
            
            let product = Product(product: name, description: description, price: price, isAvailable: isAvailable)
            ProductManager.shared.addProduct(product)
-           //navigationController?.pushViewController(HomeViewController(), animated: true)
         navigationController?.popViewController(animated: true)
     }
     
